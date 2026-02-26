@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://lumi-zone.github.io/leben-in-deutschland-web/de/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumi Zone</title>
+
+    <noscript>
+        <!-- JS kapalıysa varsayılan olarak Almanca sayfaya yönlendirir -->
+        <meta http-equiv="refresh" content="0; url=https://lumi-zone.github.io/leben-in-deutschland-web/de/">
+    </noscript>
+
     <script>
-        window.location.replace("https://lumi-zone.github.io/leben-in-deutschland-web/de/");
+        (function () {
+            // Desteklenen dillerin listesi (resimdeki sırayla: DE, EN, TR, AR, UK/UA, RU, PL, FA, PS, RO, IT, ES)
+            const supportedLanguages = ['de', 'en', 'tr', 'ar', 'uk', 'ru', 'pl', 'fa', 'ps', 'ro', 'it', 'es'];
+            const defaultLanguage = 'de';
+
+            // Tarayıcının mevcut dilini al
+            let userLang = navigator.language || navigator.userLanguage || defaultLanguage;
+
+            // Sadece ilk iki karakteri (örn: "en-US" -> "en") al ve küçük harfe çevir
+            let langCode = userLang.split('-')[0].toLowerCase();
+
+            // Ukraynaca için 'ua' gelirse 'uk' olarak düzelt
+            if (langCode === 'ua') langCode = 'uk';
+
+            // Eğer dil destekleniyorsa o dili seç, desteklenmiyorsa varsayılanı (de) seç
+            let targetLang = supportedLanguages.includes(langCode) ? langCode : defaultLanguage;
+
+            // Yönlendirilecek URL'i oluştur
+            const targetUrl = "https://lumi-zone.github.io/leben-in-deutschland-web/" + targetLang + "/";
+
+            // Yönlendirmeyi gerçekleştir
+            window.location.replace(targetUrl);
+
+            // Sayfa yüklenirse (yönlendirme gecikirse) manuel linki de güncelle
+            document.addEventListener("DOMContentLoaded", function () {
+                const manualLink = document.getElementById('manual-link');
+                if (manualLink) {
+                    manualLink.href = targetUrl;
+                }
+            });
+        })();
     </script>
     <style>
         body {
@@ -19,24 +56,31 @@
             color: #374151;
             text-align: center;
         }
+
         .container {
             max-width: 600px;
             padding: 20px;
         }
+
         a {
             color: #2563eb;
             text-decoration: none;
             font-weight: 500;
         }
+
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Yönlendiriliyorsunuz...</h1>
-        <p>Eğer otomatik olarak yönlendirilmezseniz, lütfen <a href="https://lumi-zone.github.io/leben-in-deutschland-web/de/">buraya tıklayarak</a> uygulamamızın web sitesine gidin.</p>
+        <h1>Yönlendiriliyorsunuz... / Redirecting... / Wird weitergeleitet...</h1>
+        <p>Eğer otomatik olarak yönlendirilmezseniz, lütfen <a
+                href="https://lumi-zone.github.io/leben-in-deutschland-web/de/" id="manual-link">buraya tıklayarak</a>
+            uygulamamızın web sitesine gidin.</p>
     </div>
 </body>
+
 </html>
